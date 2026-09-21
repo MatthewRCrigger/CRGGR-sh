@@ -1,5 +1,7 @@
 # CRGGR.sh
 
+[![CI](https://github.com/MatthewRCrigger/CRGGR-sh/actions/workflows/ci.yml/badge.svg)](https://github.com/MatthewRCrigger/CRGGR-sh/actions/workflows/ci.yml)
+
 A terminal for macOS, built on the GRID design system.
 
 This is a real terminal — real PTYs, real shells, real ANSI — not a themed
@@ -8,8 +10,8 @@ command is one addressable unit, with boundaries reported by the shell rather
 than guessed at.
 
 The front end was rebuilt on GRID; the app previously shipped as TRMNL with a
-TRON-derived visual system, and the repository, bundle identifier and config
-directory still carry that name.
+TRON-derived visual system, and nothing of that name is left in the product. A
+pre-rename `~/.config/trmnl` is migrated across on first launch.
 
 **Status: early.** It is used daily by its author and shared with a small group.
 Interfaces and config format may still change between versions.
@@ -17,7 +19,7 @@ Interfaces and config format may still change between versions.
 ## Install
 
 Download the latest `.dmg` from
-[Releases](https://github.com/MatthewRCrigger/TRMNL/releases), open it, and drag
+[Releases](https://github.com/MatthewRCrigger/CRGGR-sh/releases), open it, and drag
 CRGGR.sh to Applications. Builds are signed and notarized, so they open without a
 Gatekeeper warning.
 
@@ -478,14 +480,14 @@ The handoff flags this for security review before shipping; treat it as open.
 ## Updating
 
 There is no auto-update. New versions are published to
-[Releases](https://github.com/MatthewRCrigger/TRMNL/releases) and installed by
+[Releases](https://github.com/MatthewRCrigger/CRGGR-sh/releases) and installed by
 hand. What an updater would involve is specced in
 [docs/updater-spec.md](docs/updater-spec.md); it is not built.
 
 ## Contributing
 
 Bug reports and feature ideas are welcome as
-[issues](https://github.com/MatthewRCrigger/TRMNL/issues). Include the version
+[issues](https://github.com/MatthewRCrigger/CRGGR-sh/issues). Include the version
 from the welcome screen, your shell, and what you ran.
 
 Pull requests are **not being accepted yet** — this is a solo project moving

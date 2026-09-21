@@ -6,11 +6,11 @@
   "author": "Matthew Crigger",
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/MatthewRCrigger/TRMNL.git"
+    "url": "git+https://github.com/MatthewRCrigger/CRGGR-sh.git"
   },
-  "homepage": "https://github.com/MatthewRCrigger/TRMNL",
+  "homepage": "https://github.com/MatthewRCrigger/CRGGR-sh",
   "bugs": {
-    "url": "https://github.com/MatthewRCrigger/TRMNL/issues"
+    "url": "https://github.com/MatthewRCrigger/CRGGR-sh/issues"
   },
   "type": "module",
   "scripts": {
