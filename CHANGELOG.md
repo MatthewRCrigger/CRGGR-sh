@@ -1,7 +1,87 @@
 # Changelog
 
-All notable changes to TRMNL are recorded here. Dates are when a version was
-released, not when a change merged.
+All notable changes to CRGGR.sh are recorded here. Dates are when a version was
+released, not when a change merged. Everything up to and including 0.5.6 shipped
+under the name TRMNL.
+
+## [Unreleased]
+
+### Changed
+
+- **The app bundle is now `CRGGR-sh.app`.** Finder was showing `CRGGR.sh.app` in
+  full: macOS hides an extension only when it can tell which part is one, and
+  that name offered two candidates. The product is still CRGGR.sh everywhere it
+  is read — menu bar, About box, Dock and window title — so the hyphen is a
+  filename detail rather than a rename.
+
+  macOS will not replace the old bundle, so drag `CRGGR.sh.app` to the Trash once
+  the new one is working. Nothing else changes: the bundle identifier is
+  untouched, so the system treats this as the same app and your Automation and
+  Accessibility grants, settings, profiles and layouts all carry over.
+
+## [0.6.0] - 2026-09-04
+
+### Changed
+
+- **TRMNL is now CRGGR.sh.** New name, new app icon, new installer. Profiles,
+  keybindings and saved layouts migrate automatically on first launch. Two
+  one-time consequences: macOS treats this as a new app, so it asks again for
+  Automation and Accessibility permissions, and the old `TRMNL.app` is left in
+  place rather than replaced.
+- **The front end is rebuilt on the GRID design system.** A command block is now
+  a panel, and its state *is* the panel: a settled command sits in a quiet grey
+  frame, the one being read is brightened with a filled header, a failure turns
+  the whole frame red, and something still running turns it cyan. Exit status is
+  the shape of the block rather than a chip you have to go looking for.
+- **Colour is a signal, never decoration.** The six identities and the accent
+  picker are gone. Amber marks what you are acting on, cyan what is live, green
+  success, red failure — and nothing is coloured for any other reason.
+- **The interface holds still.** The boot sequence, identity sweep, divider
+  trace, blinking caret and pulsing status dot are all removed. Nothing animates
+  and nothing fades in; the only thing that moves is the real cursor inside an
+  interactive program.
+
+### Added
+
+- **A PANELS settings pane** for the frame geometry every block is drawn with —
+  border width, corner style, frame gap, heading size. It redraws as you change
+  it, since the settings window is a panel too.
+
+### Fixed
+
+- A clean exit is no longer reported as an error. Closing a shell with `exit` or
+  ⌃D painted the pane in the error colour, which called a shell doing exactly
+  what it was told a failure. Only a non-zero exit code gets the red treatment.
+- Escape could close two dialogs at once.
+- The "did you mean" error renderer shouted the shell's own words back in the
+  app's voice.
+- Block action buttons faded in where they should have appeared instantly.
+
+## [0.5.6] - 2026-08-06
+
+### Fixed
+
+- A finished interactive session no longer vanishes before it can be read. A
+  full-screen program (vim, `shopify theme dev`) snapped back to the block view
+  the instant it exited, taking whatever it had just printed with it. The last
+  frame now stays on screen until dismissed with the EXIT button.
+
+## [0.5.5] - 2026-08-04
+
+### Added
+
+- **Clickable links and context-menu copy actions.** Bare URLs in a command's
+  output are detected and ⌘-clickable, with "Copy Link" / "Copy Text" on
+  right-click, including inside takeover-mode sessions. The takeover header
+  gains a manual `⌃C EXIT` button.
+- **Confirmation before killing a live process.** Closing a session or pane
+  while a command is still running now asks first, rather than killing it.
+
+### Fixed
+
+- Real exit codes are captured from the shell, so a session whose shell exits on
+  its own shows a `PROCESS EXITED (CODE N)` banner instead of silently going
+  inert.
 
 ## [0.5.0] - 2026-08-04
 
@@ -46,13 +126,13 @@ released, not when a change merged.
 - Buttons and the session/tab row now show a pointer cursor instead of the
   default arrow, matching normal expectations for interactive elements.
 
-## [0.4.2]
+## [0.4.2] - 2026-08-04
 
 - Refuse a plaintext notarization password, and name unknown config keys.
 - Let the builder supply their own signing identity via `.env.local` or the
   environment, rather than a hardcoded default.
 
-## [0.4.1]
+## [0.4.1] - 2026-08-04
 
 - Make profiles global in fact, not just in intent — a profile added in one
   window is now reachable from every other.

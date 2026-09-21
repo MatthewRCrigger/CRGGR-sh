@@ -1,0 +1,51 @@
+name: CI
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+
+# A superseded run proves nothing about the commit that replaced it.
+concurrency:
+  group: ci-${{ github.ref }}
+  cancel-in-progress: true
+
+permissions:
+  contents: read
+
+jobs:
+  check:
+    # arm64, matching the only architecture this app is built for.
+    runs-on: macos-15
+
+    steps:
+      - uses: actions/checkout@v5
+
+      - uses: actions/setup-node@v5
+        with:
+          node-version: 22
+          cache: npm
+
+      - run: npm ci
+
+      - name: Typecheck
+        run: npm run typecheck
+
+      - name: Tests
+        run: npm test
+
+      - uses: dtolnay/rust-toolchain@stable
+
+      - uses: Swatinem/rust-cache@v2
+        with:
+          workspaces: src-tauri
+
+      # tauri-build resolves frontendDist (../dist) at compile time, so the Rust
+      # tests cannot build until the frontend has been emitted. `vite build`
+      # rather than `npm run build` because the typecheck step above already ran
+      # tsc, and a second pass buys nothing.
+      - name: Build frontend
+        run: npx vite build
+
+      - name: Rust tests
+        run: npm run test:rust

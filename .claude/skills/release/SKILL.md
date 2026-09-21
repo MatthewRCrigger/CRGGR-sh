@@ -1,9 +1,9 @@
 ---
 name: release
-description: Ship a TRMNL release — verify, branch, bump version, PR to main, build/notarize, then pause for confirmation before publishing the GitHub Release. Use when the user says "let's release", "cut a release", "ship this", "bump and release", or similar.
+description: Ship a CRGGR.sh release — verify, branch, bump version, PR to main, build/notarize, then pause for confirmation before publishing the GitHub Release. Use when the user says "let's release", "cut a release", "ship this", "bump and release", or similar.
 ---
 
-# TRMNL release
+# CRGGR.sh release
 
 Runs the whole release up to and including notarization, then **stops and
 asks the user to confirm** before doing anything outward-facing (pushing a
@@ -101,8 +101,8 @@ System Settings → Privacy & Security → Automation, then retry.
 Confirm the two verification lines both read `ok`:
 
 ```
-  ok       src-tauri/target/release/bundle/macos/TRMNL.app
-  ok       src-tauri/target/release/bundle/dmg/TRMNL_<version>_aarch64.dmg
+  ok       src-tauri/target/release/bundle/macos/CRGGR-sh.app
+  ok       src-tauri/target/release/bundle/dmg/CRGGR-sh_<version>_aarch64.dmg
 ```
 
 **Stop here and tell the user the build is signed and notarized, ready to
@@ -127,8 +127,8 @@ arm64 only" / "signed and notarized" notes line). Then:
 
 ```bash
 gh release create v<version> \
-  "src-tauri/target/release/bundle/dmg/TRMNL_<version>_aarch64.dmg" \
-  --repo MatthewRCrigger/TRMNL \
+  "src-tauri/target/release/bundle/dmg/CRGGR-sh_<version>_aarch64.dmg" \
+  --repo MatthewRCrigger/CRGGR-sh \
   --title "<version>" \
   --notes "<notes>"
 ```

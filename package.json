@@ -6,11 +6,11 @@
   "author": "Matthew Crigger",
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/MatthewRCrigger/TRMNL.git"
+    "url": "git+https://github.com/MatthewRCrigger/CRGGR-sh.git"
   },
-  "homepage": "https://github.com/MatthewRCrigger/TRMNL",
+  "homepage": "https://github.com/MatthewRCrigger/CRGGR-sh",
   "bugs": {
-    "url": "https://github.com/MatthewRCrigger/TRMNL/issues"
+    "url": "https://github.com/MatthewRCrigger/CRGGR-sh/issues"
   },
   "type": "module",
   "scripts": {
@@ -43,6 +43,7 @@
   },
   "devDependencies": {
     "@tauri-apps/cli": "^2.11.4",
+    "@types/node": "^22.20.4",
     "@types/react": "^19.2.0",
     "@types/react-dom": "^19.2.0",
     "@vitejs/plugin-react": "^6.0.5",

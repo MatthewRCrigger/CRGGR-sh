@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
+<plist version="1.0">
+<dict>
+  <!-- The bundle on disk is CRGGR-sh.app, because Finder cannot tell which
+       part of "CRGGR.sh.app" is the extension and so shows the whole name.
+       The product is still called CRGGR.sh, and this key is what the menu bar,
+       the About box and the Dock read — so the hyphen stays a filename detail
+       rather than becoming the name of the thing. -->
+  <key>CFBundleDisplayName</key>
+  <string>CRGGR.sh</string>
+</dict>
+</plist>

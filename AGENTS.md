@@ -219,27 +219,34 @@ pre-rename `~/.config/trmnl` across on first launch — and
 migration brings with it. Both are one-shot and safe to delete once no machine
 could still be on an old build.
 
-`mainBinaryName` is `CRGGR` rather than `CRGGR.sh` because a dot in
-`Contents/MacOS` reads as a file extension. Build scripts derive the bundle name
-from `tauri.conf.json` rather than hardcoding it.
+**The bundle is `CRGGR-sh.app`, and the product is still called CRGGR.sh.** The
+hyphen is a filename detail, not a rename. macOS hides a file's extension only
+when it can tell which part *is* the extension; `CRGGR.sh.app` offers two
+candidates, so Finder gave up and showed the whole name. Verified with two
+throwaway bundles under identical settings: `Foobar.app` displays as `Foobar`,
+`Foo.sh.app` displays as `Foo.sh.app`.
 
-**Finder shows `CRGGR.sh.app` in full, and that is not a bug to fix.** macOS
-hides a file's extension only when it can tell which part *is* the extension;
-`CRGGR.sh.app` offers two candidates, so Finder shows the whole name rather than
-risk hiding the wrong one. Verified with two throwaway bundles under identical
-settings: `Foobar.app` displays as `Foobar`, `Foo.sh.app` displays as
-`Foo.sh.app`.
+`CFBundleDisplayName` in `src-tauri/Info.plist` is what keeps the brand. That
+key names the app in the menu bar, the About box **and the Dock**, and it is set
+to `CRGGR.sh` independently of `productName`. Tauri merges that file into the
+plist it generates, so the two names are set in two different places on purpose
+— change `productName` and you have renamed the file, change the plist key and
+you have renamed the product.
 
-`CFBundleDisplayName` does not override it. That key names the app in the menu
-bar, the About box **and the Dock**, all of which already read `CRGGR.sh` — the
-icon label in Finder is the filename, and only the filename.
+`mainBinaryName` is `CRGGR-sh`, matching `productName`. It used to be `CRGGR`
+because a dot in `Contents/MacOS` reads as a file extension, and dropping it
+looked safe once the dot was gone — but **it does not default to `productName`,
+it defaults to the crate name**, which silently produced `Contents/MacOS/crggr`.
+That matters beyond cosmetics: `install-local.sh` refuses to install over a
+running app by `pgrep`-ing `Contents/MacOS/<binary>`, and it derives that name
+as `mainBinaryName || productName` — so a mismatch does not error, it just stops
+guarding. Keep the key set. Build scripts derive the bundle name from
+`tauri.conf.json` rather than hardcoding it, so they follow a rename on their
+own.
 
-So the Dock is fine as-is, and the choice is narrower than it looks: renaming the
-bundle to `CRGGR.app` would change the Applications folder from `CRGGR.sh.app` to
-`CRGGR` and change nothing else. It was considered and declined — the filename
-matching the product name is worth more than a shorter row in Finder — but if
-that ever gets revisited, the reason to leave it alone is preference, not
-breakage.
+The bundle identifier stays `sh.crggr.app` through all of this. That is what
+macOS keys TCC permissions on, so a renamed bundle does not re-prompt for
+Automation and Accessibility.
 
 The hook handshake key (`1337;crggr-hooks=N`) is parsed in `src/term/osc133.ts`
 and emitted in `shell_integration.rs` — **rename one and you must rename the

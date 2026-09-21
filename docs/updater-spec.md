@@ -55,7 +55,7 @@ it:
   "platforms": {
     "darwin-aarch64": {
       "signature": "<contents of TRMNL.app.tar.gz.sig>",
-      "url": "https://github.com/MatthewRCrigger/TRMNL/releases/download/v0.5.0/TRMNL.app.tar.gz"
+      "url": "https://github.com/MatthewRCrigger/CRGGR-sh/releases/download/v0.5.0/TRMNL.app.tar.gz"
     }
   }
 }
@@ -89,7 +89,7 @@ tauri-plugin-updater = "2"
   "plugins": {
     "updater": {
       "pubkey": "<public key from signer generate>",
-      "endpoints": ["https://github.com/MatthewRCrigger/TRMNL/releases/latest/download/latest.json"]
+      "endpoints": ["https://github.com/MatthewRCrigger/CRGGR-sh/releases/latest/download/latest.json"]
     }
   }
 }
