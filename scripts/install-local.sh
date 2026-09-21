@@ -63,18 +63,75 @@ fi
 
 echo "==> Installing $from over $to"
 
+# Staged in /Applications rather than /tmp because the swap below has to be a
+# rename on the same filesystem: moving a bundle across filesystems re-copies
+# it, and that can drop the extended attributes the signature is computed over.
+# The staging directory is a plain hidden directory so no stray .app sits at the
+# top level of /Applications, and the bundle inside keeps its real name.
+stage="/Applications/.$product.install-$$"
+staged="$stage/$product.app"
+replaced="$stage/replaced.app"
+
+# The install is only destructive for the length of two renames, and this puts
+# the old bundle back if it dies between them. On the happy path everything here
+# is already gone and each step is a no-op.
+cleanup() {
+  if [[ -d "$replaced" && ! -d "$dest" ]]; then
+    mv "$replaced" "$dest"
+  fi
+  rm -rf "$stage"
+}
+# Bash does not reliably run an EXIT trap when a script is killed by a signal it
+# has not trapped, and the one moment that matters — between the two renames
+# below — is exactly when an impatient ⌃C would leave /Applications empty.
+# cleanup is idempotent, so running it twice on the way out is harmless.
+trap 'cleanup; exit 130' INT TERM
+trap cleanup EXIT
+
+mkdir -p "$stage"
+
 # ditto rather than cp: it preserves the bundle's extended attributes and
 # resource forks, which a plain recursive copy can drop and which the code
-# signature is computed over. Remove the old bundle first so files deleted
-# between versions do not survive as strays inside the new one.
-rm -rf "$dest"
-ditto "$app" "$dest"
+# signature is computed over.
+ditto "$app" "$staged"
 
-# A copied bundle should still satisfy its signature. If this fails the install
-# is not trustworthy, so say so rather than leaving a broken app in place.
-if ! codesign --verify --deep --strict "$dest" 2>/dev/null; then
-  echo "error: signature does not verify after copy — $dest is suspect" >&2
+# Verify before touching what is installed. Checking after the copy — as this
+# used to — meant a bundle that failed left the machine with a suspect app and
+# no way back to the working one, which is the opposite of what a failed check
+# should cost.
+if ! codesign --verify --deep --strict "$staged" 2>/dev/null; then
+  echo "error: signature does not verify — refusing to install" >&2
+  # Captured rather than piped into grep: `grep -q` exits on the first match and
+  # the SIGPIPE that gives codesign becomes a failed pipeline under `pipefail`,
+  # so the test reads false exactly when it should read true.
+  signing="$(codesign -dvv "$staged" 2>&1 || true)"
+  if [[ "$signing" == *"Signature=adhoc"* ]]; then
+    # By far the most common cause, and the message is useless without it:
+    # `tauri build` signs ad-hoc unless an identity is in the environment, and
+    # only the --build path above puts one there.
+    echo "  That bundle is ad-hoc signed, which is what a bare \`npm run app:build\`" >&2
+    echo "  produces. Only --build resolves a real Developer ID identity (see" >&2
+    echo "  scripts/signing-env.sh). Rebuild and install in one step:" >&2
+    echo "" >&2
+    echo "      npm run app:install -- --build" >&2
+    echo "" >&2
+  fi
+  if [[ -d "$dest" ]]; then
+    echo "  $dest is unchanged." >&2
+  fi
   exit 1
 fi
+
+# Rename the old bundle aside rather than deleting it, so a failure on the next
+# line is recoverable. Moving it out entirely — rather than copying over it —
+# is also what keeps files deleted between versions from surviving as strays
+# inside the new install.
+if [[ -d "$dest" ]]; then
+  mv "$dest" "$replaced"
+fi
+mv "$staged" "$dest"
+
+rm -rf "$stage"
+trap - EXIT
 
 echo "==> Installed $dest ($from)"
