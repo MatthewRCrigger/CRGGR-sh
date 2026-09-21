@@ -101,8 +101,8 @@ System Settings → Privacy & Security → Automation, then retry.
 Confirm the two verification lines both read `ok`:
 
 ```
-  ok       src-tauri/target/release/bundle/macos/CRGGR.sh.app
-  ok       src-tauri/target/release/bundle/dmg/CRGGR.sh_<version>_aarch64.dmg
+  ok       src-tauri/target/release/bundle/macos/CRGGR-sh.app
+  ok       src-tauri/target/release/bundle/dmg/CRGGR-sh_<version>_aarch64.dmg
 ```
 
 **Stop here and tell the user the build is signed and notarized, ready to
@@ -127,7 +127,7 @@ arm64 only" / "signed and notarized" notes line). Then:
 
 ```bash
 gh release create v<version> \
-  "src-tauri/target/release/bundle/dmg/CRGGR.sh_<version>_aarch64.dmg" \
+  "src-tauri/target/release/bundle/dmg/CRGGR-sh_<version>_aarch64.dmg" \
   --repo MatthewRCrigger/CRGGR-sh \
   --title "<version>" \
   --notes "<notes>"

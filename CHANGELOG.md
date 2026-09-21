@@ -4,6 +4,21 @@ All notable changes to CRGGR.sh are recorded here. Dates are when a version was
 released, not when a change merged. Everything up to and including 0.5.6 shipped
 under the name TRMNL.
 
+## [Unreleased]
+
+### Changed
+
+- **The app bundle is now `CRGGR-sh.app`.** Finder was showing `CRGGR.sh.app` in
+  full: macOS hides an extension only when it can tell which part is one, and
+  that name offered two candidates. The product is still CRGGR.sh everywhere it
+  is read — menu bar, About box, Dock and window title — so the hyphen is a
+  filename detail rather than a rename.
+
+  macOS will not replace the old bundle, so drag `CRGGR.sh.app` to the Trash once
+  the new one is working. Nothing else changes: the bundle identifier is
+  untouched, so the system treats this as the same app and your Automation and
+  Accessibility grants, settings, profiles and layouts all carry over.
+
 ## [0.6.0] - 2026-09-04
 
 ### Changed

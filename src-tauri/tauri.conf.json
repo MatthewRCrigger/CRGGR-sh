@@ -1,7 +1,7 @@
 {
   "$schema": "../node_modules/@tauri-apps/cli/config.schema.json",
-  "productName": "CRGGR.sh",
-  "mainBinaryName": "CRGGR",
+  "productName": "CRGGR-sh",
+  "mainBinaryName": "CRGGR-sh",
   "version": "0.6.0",
   "identifier": "sh.crggr.app",
   "build": {

@@ -20,7 +20,7 @@ Interfaces and config format may still change between versions.
 
 Download the latest `.dmg` from
 [Releases](https://github.com/MatthewRCrigger/CRGGR-sh/releases), open it, and drag
-CRGGR.sh to Applications. Builds are signed and notarized, so they open without a
+CRGGR-sh to Applications. Builds are signed and notarized, so they open without a
 Gatekeeper warning.
 
 **Apple Silicon only** — Intel Macs are not supported and there are no plans to
